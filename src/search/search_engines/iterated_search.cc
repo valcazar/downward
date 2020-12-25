@@ -12,10 +12,8 @@ using namespace std;
 namespace iterated_search {
 IteratedSearch::IteratedSearch(const Options &opts, options::Registry &registry,
                                const options::Predefinitions &predefinitions)
-    : SearchEngine(opts),
+    : MultipleEngineSearch(opts, registry, predefinitions),
       engine_configs(opts.get_list<ParseTree>("engine_configs")),
-      registry(registry),
-      predefinitions(predefinitions),
       pass_bound(opts.get<bool>("pass_bound")),
       repeat_last_phase(opts.get<bool>("repeat_last")),
       continue_on_fail(opts.get<bool>("continue_on_fail")),
@@ -24,18 +22,6 @@ IteratedSearch::IteratedSearch(const Options &opts, options::Registry &registry,
       last_phase_found_solution(false),
       best_bound(bound),
       iterated_found_solution(false) {
-}
-
-shared_ptr<SearchEngine> IteratedSearch::get_search_engine(
-    int engine_configs_index) {
-    OptionParser parser(engine_configs[engine_configs_index], registry, predefinitions, false);
-    shared_ptr<SearchEngine> engine(parser.start_parsing<shared_ptr<SearchEngine>>());
-
-    ostringstream stream;
-    kptree::print_tree_bracketed(engine_configs[engine_configs_index], stream);
-    utils::g_log << "Starting search: " << stream.str() << endl;
-
-    return engine;
 }
 
 shared_ptr<SearchEngine> IteratedSearch::create_current_phase() {

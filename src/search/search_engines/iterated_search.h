@@ -1,8 +1,7 @@
 #ifndef SEARCH_ENGINES_ITERATED_SEARCH_H
 #define SEARCH_ENGINES_ITERATED_SEARCH_H
 
-#include "../option_parser_util.h"
-#include "../search_engine.h"
+#include "./multiple_engine_search.h"
 
 #include "../options/registries.h"
 #include "../options/predefinitions.h"
@@ -12,14 +11,9 @@ class Options;
 }
 
 namespace iterated_search {
-class IteratedSearch : public SearchEngine {
+class IteratedSearch : public MultipleEngineSearch {
     const std::vector<options::ParseTree> engine_configs;
-    /*
-      We need to copy the registry and predefinitions here since they live
-      longer than the objects referenced in the constructor.
-    */
-    options::Registry registry;
-    options::Predefinitions predefinitions;
+
     bool pass_bound;
     bool repeat_last_phase;
     bool continue_on_fail;
@@ -30,7 +24,6 @@ class IteratedSearch : public SearchEngine {
     int best_bound;
     bool iterated_found_solution;
 
-    std::shared_ptr<SearchEngine> get_search_engine(int engine_configs_index);
     std::shared_ptr<SearchEngine> create_current_phase();
     SearchStatus step_return_value();
 

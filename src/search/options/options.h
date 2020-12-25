@@ -63,6 +63,16 @@ public:
     }
 
     template<typename T>
+    void verify_list_exact_length(const std::string &key, int length) const {
+        if (!help_mode) {
+            if (get_list<T>(key).size() != length) {
+                throw OptionParserError("Error: list for key " +
+                                        key + " must have + " + std::to_string(length) +  " elements\n");
+            }
+        }
+    }
+
+    template<typename T>
     std::vector<T> get_list(const std::string &key) const {
         return get<std::vector<T>>(key);
     }

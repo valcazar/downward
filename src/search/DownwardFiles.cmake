@@ -431,7 +431,16 @@ fast_downward_plugin(
     NAME ITERATED_SEARCH
     HELP "Iterated search algorithm"
     SOURCES
+        search_engines/multiple_engine_search
         search_engines/iterated_search
+)
+
+fast_downward_plugin(
+        NAME BIDIRECTIONAL_SEARCH
+        HELP "Bidirectional search algorithm"
+        SOURCES
+        search_engines/multiple_engine_search
+        search_engines/bidirectional_search
 )
 
 fast_downward_plugin(
